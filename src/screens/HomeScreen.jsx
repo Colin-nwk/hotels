@@ -7,13 +7,14 @@ import {
   SafeAreaView,
 } from "react-native";
 import React, { useLayoutEffect, useState } from "react";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import Header from "../components/Header";
 import HomeForm from "../components/HomeForm";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
+  const route = useRoute();
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -40,11 +41,12 @@ const HomeScreen = () => {
       ),
     });
   }, []);
+  console.log(route.params);
   return (
     <SafeAreaView>
       <Header />
 
-      <HomeForm />
+      <HomeForm inputSearch={route?.params?.input} />
       <View>
         <Text style={{ marginHorizontal: 20, fontSize: 17, fontWeight: "500" }}>
           Travel More Spend Less

@@ -39,7 +39,7 @@ const SearchScreen = () => {
         />
         <Feather name="search" size={24} color="black" />
       </View>
-      <SearchResult />
+      <SearchResult data={data} input={input} setInput={setInput} />
     </SafeAreaView>
   );
 };

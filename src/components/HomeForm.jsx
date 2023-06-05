@@ -6,6 +6,7 @@ import {
   Pressable,
   TextInput,
   Button,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import { Feather } from "@expo/vector-icons";
@@ -29,14 +30,39 @@ const customButton = (onConfirm) => {
   );
 };
 
-const HomeForm = () => {
+const HomeForm = ({ inputSearch }) => {
   const navigation = useNavigation();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedDate, setSelectedDate] = useState({});
   const [rooms, setRooms] = useState(1);
   const [adults, setAdults] = useState(2);
   const [children, setChildren] = useState(0);
-  console.log(selectedDate);
+  const searchPlaces = (place) => {
+    if (!place || !selectedDate) {
+      Alert.alert(
+        "Invalid Details",
+        "Please enter all details",
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Press"),
+            style: "cancel",
+          },
+          { text: "ok", onPress: () => console.log("ok press") },
+        ],
+        { cancelable: false }
+      );
+    }
+    if (place && selectedDate) {
+      navigation.navigate("Places", {
+        rooms: rooms,
+        adults: adults,
+        children: children,
+        selectedDate: selectedDate,
+        place: place,
+      });
+    }
+  };
   return (
     <>
       <ScrollView>
@@ -52,15 +78,13 @@ const HomeForm = () => {
             style={styles.formInput}
             onPress={() => navigation.navigate("Search")}
           >
-            {/* TODO: destination*/}
             <Feather name="search" size={24} color="black" />
             <TextInput
-              placeholder="Enter your destination"
+              placeholder={inputSearch ? inputSearch : "Enter your destination"}
               placeholderTextColor="black"
             />
           </Pressable>
           <Pressable style={styles.formInput}>
-            {/* TODO: selected dates*/}
             <Feather name="calendar" size={24} color="black" />
 
             <DatePicker
@@ -104,7 +128,6 @@ const HomeForm = () => {
               setIsModalVisible(!isModalVisible);
             }}
           >
-            {/* TODO: rooms and guests*/}
             <Ionicons name="person" size={24} color="#003580" />
             <TextInput
               placeholder={`${rooms} room * ${adults} adults * ${children} children`}
@@ -112,6 +135,7 @@ const HomeForm = () => {
             />
           </Pressable>
           <Pressable
+            onPress={() => searchPlaces(inputSearch)}
             style={{
               alignItems: "center",
               paddingHorizontal: 10,
@@ -124,7 +148,6 @@ const HomeForm = () => {
               borderBottomRightRadius: 6,
             }}
           >
-            {/* TODO: search*/}
             <Text
               style={{
                 color: "white",
