@@ -9,7 +9,11 @@ const StackNavigator = () => {
   return (
     <NavigationContainer>
       <HomeStack.Navigator>
-        <HomeStack.Screen name="main" component={TabNavigator} />
+        <HomeStack.Screen
+          name="main"
+          component={TabNavigator}
+          options={{ headerShown: false }}
+        />
       </HomeStack.Navigator>
     </NavigationContainer>
   );
